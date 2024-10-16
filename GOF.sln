@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35323.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOF", "GOF\GOF.csproj", "{CF07BF82-1C03-4969-BD2E-D7A55AE99E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singleton Pattern", "Singleton Pattern\Singleton Pattern.csproj", "{660899AE-EFBE-441F-9BA3-0F5B2F4277A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF07BF82-1C03-4969-BD2E-D7A55AE99E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF07BF82-1C03-4969-BD2E-D7A55AE99E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF07BF82-1C03-4969-BD2E-D7A55AE99E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF07BF82-1C03-4969-BD2E-D7A55AE99E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{660899AE-EFBE-441F-9BA3-0F5B2F4277A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{660899AE-EFBE-441F-9BA3-0F5B2F4277A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{660899AE-EFBE-441F-9BA3-0F5B2F4277A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{660899AE-EFBE-441F-9BA3-0F5B2F4277A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9E7DEBB-D4D5-4AAD-A083-FAB34A881CB9}
+	EndGlobalSection
+EndGlobal
