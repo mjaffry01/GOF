@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GOF 23 Design Patterns Explained with Analogies and Code</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        h1 { color: #2E8B57; margin-top: 20px; }
+        .important { color: #B22222; font-weight: bold; }
+        .code { background-color: #F8F9FA; padding: 10px; border-radius: 5px; }
+        .pattern { margin-bottom: 30px; }
+        .solid { background-color: #FFFACD; padding: 10px; border-left: 5px solid #FFD700; }
+        .card-header { background-color: #F0F0F0; cursor: pointer; }
+        .card { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">GOF 23 Design Patterns Explained with Analogies and Code</h1>
+
+    <p class="important text-center">This comprehensive guide covers the 23 design patterns from the "Gang of Four" book, enriched with analogies, code examples, UML diagrams, problem statements, characters, use cases, and explanations of SOLID principles in this context.</p>
+
+    <hr>
+
+    <!-- Creational Patterns -->
+    <h2>Creational Patterns</h2>
+
+    <div id="accordionCreational">
+
+        <!-- Pattern 1 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading1" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                <h3 class="mb-0">1. Abstract Factory Pattern</h3>
+            </div>
+            <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordionCreational">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Imagine a furniture store that offers different styles like Victorian or Modern. Each style comes with its own set of furniture, including chairs and sofas that match the style.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="abstract_factory_uml.png" alt="Abstract Factory UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Abstract Products
+interface Chair {
+    void sitOn();
+}
+
+interface Sofa {
+    void lieOn();
+}
+
+// Concrete Products
+class VictorianChair implements Chair {
+    public void sitOn() { System.out.println("Sitting on a Victorian chair."); }
+}
+
+class ModernChair implements Chair {
+    public void sitOn() { System.out.println("Sitting on a Modern chair."); }
+}
+
+class VictorianSofa implements Sofa {
+    public void lieOn() { System.out.println("Lying on a Victorian sofa."); }
+}
+
+class ModernSofa implements Sofa {
+    public void lieOn() { System.out.println("Lying on a Modern sofa."); }
+}
+
+// Abstract Factory
+interface FurnitureFactory {
+    Chair createChair();
+    Sofa createSofa();
+}
+
+// Concrete Factories
+class VictorianFurnitureFactory implements FurnitureFactory {
+    public Chair createChair() { return new VictorianChair(); }
+    public Sofa createSofa() { return new VictorianSofa(); }
+}
+
+class ModernFurnitureFactory implements FurnitureFactory {
+    public Chair createChair() { return new ModernChair(); }
+    public Sofa createSofa() { return new ModernSofa(); }
+}
+
+// Usage
+public class AbstractFactoryPatternDemo {
+    public static void main(String[] args) {
+        FurnitureFactory factory = new VictorianFurnitureFactory();
+        Chair chair = factory.createChair();
+        Sofa sofa = factory.createSofa();
+        chair.sitOn();
+        sofa.lieOn();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Abstract Factory Pattern provides an interface for creating families of related objects without specifying their concrete classes.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we create families of related or dependent objects without specifying their concrete classes?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>AbstractFactory</strong> - Declares an interface for operations that create abstract products.</li>
+                        <li><strong>ConcreteFactory</strong> - Implements the operations to create concrete product objects.</li>
+                        <li><strong>AbstractProduct</strong> - Declares an interface for a type of product object.</li>
+                        <li><strong>Product</strong> - Defines a product object to be created by the corresponding ConcreteFactory.</li>
+                        <li><strong>Client</strong> - Uses only interfaces declared by AbstractFactory and AbstractProduct classes.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>GUI toolkits that support multiple look-and-feel standards.</li>
+                        <li>Creating objects for different database servers (e.g., Oracle, SQL Server) without changing the code that uses them.</li>
+                        <li>When the system needs to be independent of how its products are created.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 2 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                <h3 class="mb-0">2. Builder Pattern</h3>
+            </div>
+            <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordionCreational">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Building a custom house by hiring a builder to construct it step by step according to your specifications.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="builder_uml.png" alt="Builder UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Product
+class House {
+    private String foundation;
+    private String structure;
+    private String roof;
+    // Getters and Setters
+    public void setFoundation(String foundation) { this.foundation = foundation; }
+    public void setStructure(String structure) { this.structure = structure; }
+    public void setRoof(String roof) { this.roof = roof; }
+    public String getFoundation() { return foundation; }
+    public String getStructure() { return structure; }
+    public String getRoof() { return roof; }
+}
+
+// Builder Interface
+interface HouseBuilder {
+    void buildFoundation();
+    void buildStructure();
+    void buildRoof();
+    House getHouse();
+}
+
+// Concrete Builder
+class ConcreteHouseBuilder implements HouseBuilder {
+    private House house = new House();
+
+    public void buildFoundation() { house.setFoundation("Concrete Foundation"); }
+    public void buildStructure() { house.setStructure("Concrete Structure"); }
+    public void buildRoof() { house.setRoof("Concrete Roof"); }
+    public House getHouse() { return house; }
+}
+
+// Director
+class Engineer {
+    public void constructHouse(HouseBuilder builder) {
+        builder.buildFoundation();
+        builder.buildStructure();
+        builder.buildRoof();
+    }
+}
+
+// Usage
+public class BuilderPatternDemo {
+    public static void main(String[] args) {
+        HouseBuilder builder = new ConcreteHouseBuilder();
+        Engineer engineer = new Engineer();
+        engineer.constructHouse(builder);
+        House house = builder.getHouse();
+        System.out.println("House built with foundation: " + house.getFoundation());
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Builder Pattern separates the construction of a complex object from its representation, allowing the same construction process to create different representations.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we construct complex objects step by step, allowing for different representations of the object that's being built?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Builder</strong> - Specifies an abstract interface for creating parts of a Product object.</li>
+                        <li><strong>ConcreteBuilder</strong> - Constructs and assembles parts of the product by implementing the Builder interface.</li>
+                        <li><strong>Director</strong> - Constructs an object using the Builder interface.</li>
+                        <li><strong>Product</strong> - Represents the complex object under construction.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>When creating the representation involves complex assembly of parts.</li>
+                        <li>Building composite objects like a car with various parts (engine, wheels, etc.).</li>
+                        <li>When you need to create different representations (e.g., text or graphical) of a complex object.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 3 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                <h3 class="mb-0">3. Factory Method Pattern</h3>
+            </div>
+            <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionCreational">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Ordering a pizza from a pizzeria that decides internally how to create the specific type of pizza you requested.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="factory_method_uml.png" alt="Factory Method UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Product Interface
+interface Pizza {
+    void prepare();
+}
+
+// Concrete Products
+class CheesePizza implements Pizza {
+    public void prepare() { System.out.println("Preparing Cheese Pizza"); }
+}
+
+class PepperoniPizza implements Pizza {
+    public void prepare() { System.out.println("Preparing Pepperoni Pizza"); }
+}
+
+// Creator
+abstract class PizzaStore {
+    public Pizza orderPizza(String type) {
+        Pizza pizza = createPizza(type);
+        pizza.prepare();
+        return pizza;
+    }
+    protected abstract Pizza createPizza(String type);
+}
+
+// Concrete Creator
+class NYPizzaStore extends PizzaStore {
+    protected Pizza createPizza(String type) {
+        if (type.equals("cheese")) {
+            return new CheesePizza();
+        } else if (type.equals("pepperoni")) {
+            return new PepperoniPizza();
+        }
+        return null;
+    }
+}
+
+// Usage
+public class FactoryMethodPatternDemo {
+    public static void main(String[] args) {
+        PizzaStore store = new NYPizzaStore();
+        Pizza pizza = store.orderPizza("cheese");
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Factory Method Pattern defines an interface for creating an object but lets subclasses decide which class to instantiate.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we allow a class to defer instantiation to subclasses, thus enabling a class to be independent of the object creation process?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Product</strong> - Defines the interface of objects the factory method creates.</li>
+                        <li><strong>ConcreteProduct</strong> - Implements the Product interface.</li>
+                        <li><strong>Creator</strong> - Declares the factory method, which returns an object of type Product.</li>
+                        <li><strong>ConcreteCreator</strong> - Overrides the factory method to return an instance of ConcreteProduct.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>When a class can't anticipate the class of objects it needs to create.</li>
+                        <li>When a class wants its subclasses to specify the objects it creates.</li>
+                        <li>Frameworks that need to standardize the architectural model for creating objects.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 4 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading4" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                <h3 class="mb-0">4. Prototype Pattern</h3>
+            </div>
+            <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionCreational">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Making a photocopy of a document instead of retyping it entirely.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="prototype_uml.png" alt="Prototype UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Prototype Interface
+interface Shape extends Cloneable {
+    Shape clone();
+}
+
+// Concrete Prototype
+class Circle implements Shape {
+    private String color;
+    private int x;
+    private int y;
+    private int radius;
+
+    public Circle(String color) {
+        this.color = color;
+    }
+
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
+    public void setRadius(int radius) { this.radius = radius; }
+
+    public Shape clone() {
+        try {
+            return (Shape) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new Circle(this.color);
+        }
+    }
+
+    public void draw() {
+        System.out.println("Drawing Circle [Color: " + color + ", x: " + x + ", y: " + y + ", radius: " + radius + "]");
+    }
+}
+
+// Usage
+public class PrototypePatternDemo {
+    public static void main(String[] args) {
+        Circle circle1 = new Circle("Red");
+        circle1.setX(10);
+        circle1.setY(20);
+        circle1.setRadius(15);
+        circle1.draw();
+
+        Circle circle2 = (Circle) circle1.clone();
+        circle2.setColor("Blue");
+        circle2.setX(30);
+        circle2.setY(40);
+        circle2.setRadius(25);
+        circle2.draw();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Prototype Pattern allows creating new objects by copying existing ones without coupling to their specific classes.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we create new objects by copying existing ones without depending on their concrete classes?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Prototype</strong> - Declares an interface for cloning itself.</li>
+                        <li><strong>ConcretePrototype</strong> - Implements the cloning operation.</li>
+                        <li><strong>Client</strong> - Creates a new object by asking a prototype to clone itself.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>When a system should be independent of how its products are created, composed, and represented.</li>
+                        <li>To avoid subclasses of an object creator in the client application.</li>
+                        <li>When creating an instance is more expensive than copying an existing one.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 5 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading5" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                <h3 class="mb-0">5. Singleton Pattern</h3>
+            </div>
+            <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionCreational">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A single access point to a shared resource, like a single printer in an office used by all employees.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="singleton_uml.png" alt="Singleton UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+public class PrinterSpooler {
+    private static PrinterSpooler instance;
+
+    private PrinterSpooler() {
+        // Private constructor
+    }
+
+    public static PrinterSpooler getInstance() {
+        if (instance == null) {
+            instance = new PrinterSpooler();
+        }
+        return instance;
+    }
+
+    public void spool(String document) {
+        System.out.println("Spooling document: " + document);
+    }
+}
+
+// Usage
+public class SingletonPatternDemo {
+    public static void main(String[] args) {
+        PrinterSpooler spooler1 = PrinterSpooler.getInstance();
+        PrinterSpooler spooler2 = PrinterSpooler.getInstance();
+
+        spooler1.spool("Document1.pdf");
+        spooler2.spool("Document2.pdf");
+
+        // spooler1 and spooler2 are the same instance
+        System.out.println("spooler1 and spooler2 are the same instance: " + (spooler1 == spooler2));
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Singleton Pattern ensures a class has only one instance and provides a global point of access to it.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we ensure that a class has only one instance and provide a global point of access to it?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Singleton</strong> - The class that is responsible for creating and maintaining its own unique instance.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Managing shared resources like a printer spooler, database connection, or configuration settings.</li>
+                        <li>Logging mechanisms where a single logger is used throughout the application.</li>
+                        <li>Caching, thread pools, and dialog boxes where only one instance is needed.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Structural Patterns -->
+    <h2>Structural Patterns</h2>
+
+    <div id="accordionStructural">
+
+        <!-- Pattern 6 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading6" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                <h3 class="mb-0">6. Adapter Pattern</h3>
+            </div>
+            <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A power plug adapter that allows you to plug a device into a foreign outlet.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="adapter_uml.png" alt="Adapter UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Target Interface
+interface MediaPlayer {
+    void play(String audioType, String fileName);
+}
+
+// Adaptee
+class AdvancedMediaPlayer {
+    void playMp4(String fileName) { System.out.println("Playing mp4 file. Name: " + fileName); }
+    void playVlc(String fileName) { System.out.println("Playing vlc file. Name: " + fileName); }
+}
+
+// Adapter
+class MediaAdapter implements MediaPlayer {
+    AdvancedMediaPlayer advancedPlayer = new AdvancedMediaPlayer();
+
+    public void play(String audioType, String fileName) {
+        if(audioType.equalsIgnoreCase("mp4")) {
+            advancedPlayer.playMp4(fileName);
+        } else if(audioType.equalsIgnoreCase("vlc")) {
+            advancedPlayer.playVlc(fileName);
+        }
+    }
+}
+
+// Usage
+public class AdapterPatternDemo {
+    public static void main(String[] args) {
+        MediaPlayer player = new MediaAdapter();
+        player.play("mp4", "song.mp4");
+        player.play("vlc", "movie.vlc");
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Adapter Pattern allows incompatible interfaces to work together by converting the interface of one class into an interface expected by the client.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we allow incompatible interfaces to work together by converting the interface of one class into an interface expected by the clients?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Target</strong> - Defines the domain-specific interface that the Client uses.</li>
+                        <li><strong>Client</strong> - Collaborates with objects conforming to the Target interface.</li>
+                        <li><strong>Adaptee</strong> - Defines an existing interface that needs adapting.</li>
+                        <li><strong>Adapter</strong> - Adapts the interface of Adaptee to the Target interface.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Integrating new components into existing systems without modifying the existing code.</li>
+                        <li>Working with legacy code that doesn't match current system interfaces.</li>
+                        <li>Allowing two incompatible interfaces to communicate.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 7 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading7" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                <h3 class="mb-0">7. Bridge Pattern</h3>
+            </div>
+            <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Separating the concept of shape and color, so you can mix and match them independently.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="bridge_uml.png" alt="Bridge UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Implementor
+interface Color {
+    String fill();
+}
+
+// Concrete Implementors
+class Red implements Color {
+    public String fill() { return "Color is Red"; }
+}
+
+class Blue implements Color {
+    public String fill() { return "Color is Blue"; }
+}
+
+// Abstraction
+abstract class Shape {
+    protected Color color;
+    public Shape(Color color) { this.color = color; }
+    abstract void draw();
+}
+
+// Refined Abstraction
+class Circle extends Shape {
+    public Circle(Color color) { super(color); }
+    public void draw() { System.out.println("Drawing Circle. " + color.fill()); }
+}
+
+class Square extends Shape {
+    public Square(Color color) { super(color); }
+    public void draw() { System.out.println("Drawing Square. " + color.fill()); }
+}
+
+// Usage
+public class BridgePatternDemo {
+    public static void main(String[] args) {
+        Shape redCircle = new Circle(new Red());
+        redCircle.draw();
+
+        Shape blueSquare = new Square(new Blue());
+        blueSquare.draw();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Bridge Pattern decouples an abstraction from its implementation so that the two can vary independently.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we decouple an abstraction from its implementation so that the two can vary independently?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Abstraction</strong> - Defines the abstraction's interface and maintains a reference to an object of type Implementor.</li>
+                        <li><strong>RefinedAbstraction</strong> - Extends the interface defined by Abstraction.</li>
+                        <li><strong>Implementor</strong> - Defines the interface for implementation classes.</li>
+                        <li><strong>ConcreteImplementor</strong> - Implements the Implementor interface.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>When you want to avoid a permanent binding between an abstraction and its implementation.</li>
+                        <li>When both the abstractions and their implementations should be extensible via subclasses.</li>
+                        <li>When changes in the implementation of an abstraction should not affect clients.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 8 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading8" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                <h3 class="mb-0">8. Composite Pattern</h3>
+            </div>
+            <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A company structure where an employee can be a manager with subordinates or a leaf employee without subordinates.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="composite_uml.png" alt="Composite UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Component
+interface Employee {
+    void showEmployeeDetails();
+}
+
+// Leaf
+class Developer implements Employee {
+    private String name;
+    private String position;
+
+    public Developer(String name, String position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    public void showEmployeeDetails() {
+        System.out.println(name + " works as " + position);
+    }
+}
+
+// Composite
+class Manager implements Employee {
+    private String name;
+    private String position;
+    private List<Employee> subordinates;
+
+    public Manager(String name, String position) {
+        this.name = name;
+        this.position = position;
+        subordinates = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee emp) {
+        subordinates.add(emp);
+    }
+
+    public void removeEmployee(Employee emp) {
+        subordinates.remove(emp);
+    }
+
+    public void showEmployeeDetails() {
+        System.out.println(name + " works as " + position);
+        for (Employee emp : subordinates) {
+            emp.showEmployeeDetails();
+        }
+    }
+}
+
+// Usage
+public class CompositePatternDemo {
+    public static void main(String[] args) {
+        Employee dev1 = new Developer("John", "Frontend Developer");
+        Employee dev2 = new Developer("Doe", "Backend Developer");
+        Manager manager = new Manager("Alice", "Project Manager");
+        manager.addEmployee(dev1);
+        manager.addEmployee(dev2);
+        manager.showEmployeeDetails();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Composite Pattern allows you to compose objects into tree structures to represent part-whole hierarchies. It lets clients treat individual objects and compositions uniformly.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we treat individual objects and compositions of objects uniformly?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Component</strong> - Declares the interface for objects in the composition.</li>
+                        <li><strong>Leaf</strong> - Represents leaf objects in the composition with no children.</li>
+                        <li><strong>Composite</strong> - Defines behavior for components having children and stores child components.</li>
+                        <li><strong>Client</strong> - Manipulates objects through the Component interface.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Representing part-whole hierarchies of objects.</li>
+                        <li>Building complex UI components from simpler ones.</li>
+                        <li>File systems, where files and directories are treated uniformly.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 9 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading9" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                <h3 class="mb-0">9. Decorator Pattern</h3>
+            </div>
+            <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Adding extra toppings to a basic ice cream to enhance its flavor.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="decorator_uml.png" alt="Decorator UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Component
+interface IceCream {
+    String makeIceCream();
+}
+
+// Concrete Component
+class SimpleIceCream implements IceCream {
+    public String makeIceCream() {
+        return "Base Ice Cream";
+    }
+}
+
+// Decorator
+abstract class IceCreamDecorator implements IceCream {
+    protected IceCream specialIceCream;
+
+    public IceCreamDecorator(IceCream specialIceCream) {
+        this.specialIceCream = specialIceCream;
+    }
+
+    public String makeIceCream() {
+        return specialIceCream.makeIceCream();
+    }
+}
+
+// Concrete Decorators
+class ChocolateIceCream extends IceCreamDecorator {
+    public ChocolateIceCream(IceCream specialIceCream) {
+        super(specialIceCream);
+    }
+
+    public String makeIceCream() {
+        return specialIceCream.makeIceCream() + " + Chocolate";
+    }
+}
+
+class SprinklesIceCream extends IceCreamDecorator {
+    public SprinklesIceCream(IceCream specialIceCream) {
+        super(specialIceCream);
+    }
+
+    public String makeIceCream() {
+        return specialIceCream.makeIceCream() + " + Sprinkles";
+    }
+}
+
+// Usage
+public class DecoratorPatternDemo {
+    public static void main(String[] args) {
+        IceCream iceCream = new ChocolateIceCream(new SprinklesIceCream(new SimpleIceCream()));
+        System.out.println(iceCream.makeIceCream());
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Decorator Pattern attaches additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we attach additional responsibilities to an object dynamically without affecting other objects?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Component</strong> - Defines the interface for objects that can have responsibilities added to them.</li>
+                        <li><strong>ConcreteComponent</strong> - Defines an object to which additional responsibilities can be attached.</li>
+                        <li><strong>Decorator</strong> - Maintains a reference to a Component object and defines an interface conforming to Component's interface.</li>
+                        <li><strong>ConcreteDecorator</strong> - Adds responsibilities to the component.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Adding functionalities to objects without subclassing.</li>
+                        <li>Dynamic behavior modifications in GUI components.</li>
+                        <li>Extending classes in a way that is transparent to the client.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 10 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading10" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                <h3 class="mb-0">10. Facade Pattern</h3>
+            </div>
+            <div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A simplified interface to a complex subsystem, like the front desk in a hotel that handles all customer requests.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="facade_uml.png" alt="Facade UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Subsystem classes
+class CPU {
+    public void freeze() { System.out.println("CPU freezing."); }
+    public void jump(long position) { System.out.println("CPU jumping to position " + position); }
+    public void execute() { System.out.println("CPU executing."); }
+}
+
+class Memory {
+    public void load(long position, byte[] data) { System.out.println("Memory loading data at position " + position); }
+}
+
+class HardDrive {
+    public byte[] read(long lba, int size) { 
+        System.out.println("HardDrive reading " + size + " bytes from " + lba);
+        return new byte[size]; 
+    }
+}
+
+// Facade
+class Computer {
+    private CPU cpu;
+    private Memory memory;
+    private HardDrive hardDrive;
+
+    public Computer() {
+        cpu = new CPU();
+        memory = new Memory();
+        hardDrive = new HardDrive();
+    }
+
+    public void startComputer() {
+        cpu.freeze();
+        memory.load(0L, hardDrive.read(0L, 1024));
+        cpu.jump(0L);
+        cpu.execute();
+    }
+}
+
+// Usage
+public class FacadePatternDemo {
+    public static void main(String[] args) {
+        Computer computer = new Computer();
+        computer.startComputer();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Facade Pattern provides a unified interface to a set of interfaces in a subsystem, making it easier to use.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we provide a simplified interface to a complex subsystem, making it easier to use?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Facade</strong> - Provides a unified interface to a set of interfaces in a subsystem.</li>
+                        <li><strong>Subsystem Classes</strong> - Implement subsystem functionality and handle work assigned by the Facade object.</li>
+                        <li><strong>Client</strong> - Uses the Facade to interact with the subsystem.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Simplifying complex APIs.</li>
+                        <li>Providing a unified interface to a set of interfaces in a subsystem.</li>
+                        <li>Reducing coupling between clients and subsystems.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 11 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading11" data-toggle="collapse" data-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                <h3 class="mb-0">11. Flyweight Pattern</h3>
+            </div>
+            <div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Sharing common parts of a character's font data between multiple characters in a text editor.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="flyweight_uml.png" alt="Flyweight UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Flyweight Interface
+interface Shape {
+    void draw();
+}
+
+// Concrete Flyweight
+class Circle implements Shape {
+    private String color;
+    private int x;
+    private int y;
+    private int radius;
+
+    public Circle(String color) {
+        this.color = color;
+    }
+
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
+    public void setRadius(int radius) { this.radius = radius; }
+
+    public void draw() {
+        System.out.println("Drawing Circle [Color: " + color + ", x: " + x + ", y: " + y + ", radius: " + radius + "]");
+    }
+}
+
+// Flyweight Factory
+class ShapeFactory {
+    private static final Map<String, Shape> circleMap = new HashMap<>();
+
+    public static Shape getCircle(String color) {
+        Circle circle = (Circle) circleMap.get(color);
+        if (circle == null) {
+            circle = new Circle(color);
+            circleMap.put(color, circle);
+        }
+        return circle;
+    }
+}
+
+// Usage
+public class FlyweightPatternDemo {
+    public static void main(String[] args) {
+        for (int i = 0; i < 20; ++i) {
+            Circle circle = (Circle) ShapeFactory.getCircle("Red");
+            circle.setX(i * 10);
+            circle.setY(i * 20);
+            circle.setRadius(100);
+            circle.draw();
+        }
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Flyweight Pattern reduces the cost of creating and manipulating a large number of similar objects by sharing common parts of state between multiple objects.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we support a large number of fine-grained objects efficiently by sharing common parts of their state?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Flyweight</strong> - Declares an interface through which flyweights can receive and act on extrinsic state.</li>
+                        <li><strong>ConcreteFlyweight</strong> - Implements the Flyweight interface and adds storage for intrinsic state.</li>
+                        <li><strong>FlyweightFactory</strong> - Creates and manages flyweight objects, ensuring they are shared properly.</li>
+                        <li><strong>Client</strong> - Maintains references to flyweights and computes or stores extrinsic state.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Rendering large numbers of similar objects in a game or graphics application.</li>
+                        <li>Implementing data compression by sharing common data among objects.</li>
+                        <li>Caching strategies where object creation is expensive.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 12 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading12" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+                <h3 class="mb-0">12. Proxy Pattern</h3>
+            </div>
+            <div id="collapse12" class="collapse" aria-labelledby="heading12" data-parent="#accordionStructural">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A credit card acting as a proxy for money in your bank account.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="proxy_uml.png" alt="Proxy UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Subject Interface
+interface Image {
+    void display();
+}
+
+// Real Subject
+class RealImage implements Image {
+    private String fileName;
+
+    public RealImage(String fileName) {
+        this.fileName = fileName;
+        loadFromDisk();
+    }
+
+    private void loadFromDisk() { System.out.println("Loading " + fileName); }
+
+    public void display() { System.out.println("Displaying " + fileName); }
+}
+
+// Proxy
+class ProxyImage implements Image {
+    private RealImage realImage;
+    private String fileName;
+
+    public ProxyImage(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void display() {
+        if (realImage == null) {
+            realImage = new RealImage(fileName);
+        }
+        realImage.display();
+    }
+}
+
+// Usage
+public class ProxyPatternDemo {
+    public static void main(String[] args) {
+        Image image = new ProxyImage("test.jpg");
+        image.display(); // Loads and displays the image
+        image.display(); // Only displays the image
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Proxy Pattern provides a surrogate or placeholder for another object to control access to it.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we provide a surrogate or placeholder for another object to control access to it?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Subject</strong> - Defines the common interface for RealSubject and Proxy so that a Proxy can be used anywhere a RealSubject is expected.</li>
+                        <li><strong>RealSubject</strong> - Defines the real object that the proxy represents.</li>
+                        <li><strong>Proxy</strong> - Maintains a reference to the RealSubject and provides the same interface.</li>
+                        <li><strong>Client</strong> - Interacts with the Subject interface to use the RealSubject or Proxy.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Remote proxies for accessing objects in different address spaces.</li>
+                        <li>Virtual proxies for creating expensive objects on demand.</li>
+                        <li>Protection proxies for controlling access to sensitive objects.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Behavioral Patterns -->
+    <h2>Behavioral Patterns</h2>
+
+    <div id="accordionBehavioral">
+
+        <!-- Pattern 13 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading13" data-toggle="collapse" data-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                <h3 class="mb-0">13. Chain of Responsibility Pattern</h3>
+            </div>
+            <div id="collapse13" class="collapse" aria-labelledby="heading13" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A customer service call being transferred from one department to another until it reaches someone who can handle it.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="chain_of_responsibility_uml.png" alt="Chain of Responsibility UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Handler
+abstract class Logger {
+    protected Logger nextLogger;
+    public void setNextLogger(Logger nextLogger) {
+        this.nextLogger = nextLogger;
+    }
+    public void logMessage(String message) {
+        write(message);
+        if (nextLogger != null) {
+            nextLogger.logMessage(message);
+        }
+    }
+    abstract protected void write(String message);
+}
+
+// Concrete Handlers
+class ConsoleLogger extends Logger {
+    protected void write(String message) { System.out.println("Console Logger: " + message); }
+}
+
+class FileLogger extends Logger {
+    protected void write(String message) { System.out.println("File Logger: " + message); }
+}
+
+class ErrorLogger extends Logger {
+    protected void write(String message) { System.out.println("Error Logger: " + message); }
+}
+
+// Usage
+public class ChainOfResponsibilityPatternDemo {
+    public static void main(String[] args) {
+        Logger loggerChain = new ConsoleLogger();
+        Logger fileLogger = new FileLogger();
+        Logger errorLogger = new ErrorLogger();
+        
+        loggerChain.setNextLogger(fileLogger);
+        fileLogger.setNextLogger(errorLogger);
+        
+        loggerChain.logMessage("This is a log message.");
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Chain of Responsibility Pattern passes a request along a chain of handlers until one of them handles it.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Handler</strong> - Defines an interface for handling requests and optionally implements the successor link.</li>
+                        <li><strong>ConcreteHandler</strong> - Handles requests it is responsible for; can forward requests to its successor.</li>
+                        <li><strong>Client</strong> - Initiates the request to a ConcreteHandler.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Event handling systems where multiple handlers may process an event.</li>
+                        <li>Approval workflows where a request passes through multiple approvers.</li>
+                        <li>Logging frameworks with multiple levels of logging (debug, info, error).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 14 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading14" data-toggle="collapse" data-target="#collapse14" aria-expanded="false" aria-controls="collapse14">
+                <h3 class="mb-0">14. Command Pattern</h3>
+            </div>
+            <div id="collapse14" class="collapse" aria-labelledby="heading14" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A remote control that can execute various commands like turning on/off the TV, changing channels, etc.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="command_uml.png" alt="Command UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Command Interface
+interface Command {
+    void execute();
+}
+
+// Receiver
+class Light {
+    public void turnOn() { System.out.println("Light is ON"); }
+    public void turnOff() { System.out.println("Light is OFF"); }
+}
+
+// Concrete Commands
+class TurnOnCommand implements Command {
+    private Light light;
+    public TurnOnCommand(Light light) { this.light = light; }
+    public void execute() { light.turnOn(); }
+}
+
+class TurnOffCommand implements Command {
+    private Light light;
+    public TurnOffCommand(Light light) { this.light = light; }
+    public void execute() { light.turnOff(); }
+}
+
+// Invoker
+class RemoteControl {
+    private Command command;
+    public void setCommand(Command command) { this.command = command; }
+    public void pressButton() { command.execute(); }
+}
+
+// Usage
+public class CommandPatternDemo {
+    public static void main(String[] args) {
+        Light livingRoomLight = new Light();
+        Command turnOn = new TurnOnCommand(livingRoomLight);
+        Command turnOff = new TurnOffCommand(livingRoomLight);
+
+        RemoteControl remote = new RemoteControl();
+        remote.setCommand(turnOn);
+        remote.pressButton();
+        remote.setCommand(turnOff);
+        remote.pressButton();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Command Pattern encapsulates a request as an object, allowing for parameterization of clients with queues, requests, and operations.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we encapsulate a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Command</strong> - Declares an interface for executing an operation.</li>
+                        <li><strong>ConcreteCommand</strong> - Implements the Command interface and defines a binding between a Receiver object and an action.</li>
+                        <li><strong>Receiver</strong> - Knows how to perform the operations associated with carrying out a request.</li>
+                        <li><strong>Invoker</strong> - Asks the command to carry out the request.</li>
+                        <li><strong>Client</strong> - Creates a ConcreteCommand object and sets its receiver.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Implementing undo/redo functionality in applications.</li>
+                        <li>Task scheduling and thread pools where tasks are represented as commands.</li>
+                        <li>GUI buttons and menu items that execute commands when clicked.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 15 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading15" data-toggle="collapse" data-target="#collapse15" aria-expanded="false" aria-controls="collapse15">
+                <h3 class="mb-0">15. Interpreter Pattern</h3>
+            </div>
+            <div id="collapse15" class="collapse" aria-labelledby="heading15" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Translating sentences from one language to another using grammar rules.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="interpreter_uml.png" alt="Interpreter UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Expression Interface
+interface Expression {
+    boolean interpret(String context);
+}
+
+// Terminal Expression
+class TerminalExpression implements Expression {
+    private String data;
+    public TerminalExpression(String data) { this.data = data; }
+    public boolean interpret(String context) { return context.contains(data); }
+}
+
+// Or Expression
+class OrExpression implements Expression {
+    private Expression expr1;
+    private Expression expr2;
+    public OrExpression(Expression expr1, Expression expr2) {
+        this.expr1 = expr1; this.expr2 = expr2;
+    }
+    public boolean interpret(String context) {
+        return expr1.interpret(context) || expr2.interpret(context);
+    }
+}
+
+// Usage
+public class InterpreterPatternDemo {
+    public static void main(String[] args) {
+        Expression isJohn = new TerminalExpression("John");
+        Expression isMike = new TerminalExpression("Mike");
+        Expression isMale = new OrExpression(isJohn, isMike);
+        
+        System.out.println("Is John male? " + isMale.interpret("John"));
+        System.out.println("Is Mike male? " + isMale.interpret("Mike"));
+        System.out.println("Is Jane male? " + isMale.interpret("Jane"));
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Interpreter Pattern defines a grammatical representation for a language and an interpreter to interpret the grammar.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we define a representation for a language's grammar along with an interpreter that uses the representation to interpret sentences in the language?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>AbstractExpression</strong> - Declares an abstract Interpret operation.</li>
+                        <li><strong>TerminalExpression</strong> - Implements an Interpret operation associated with terminal symbols.</li>
+                        <li><strong>NonterminalExpression</strong> - Represents grammatical rules and is composed of other expressions.</li>
+                        <li><strong>Context</strong> - Contains information that's global to the interpreter.</li>
+                        <li><strong>Client</strong> - Builds the abstract syntax tree representing a particular sentence in the language.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Parsing and interpreting mathematical expressions.</li>
+                        <li>Interpreting scripts or languages in applications.</li>
+                        <li>Regular expressions and pattern matching.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 16 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading16" data-toggle="collapse" data-target="#collapse16" aria-expanded="false" aria-controls="collapse16">
+                <h3 class="mb-0">16. Iterator Pattern</h3>
+            </div>
+            <div id="collapse16" class="collapse" aria-labelledby="heading16" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A TV remote's channel button allowing you to traverse through channels sequentially.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="iterator_uml.png" alt="Iterator UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Iterator Interface
+interface Iterator {
+    boolean hasNext();
+    Object next();
+}
+
+// Aggregate Interface
+interface Container {
+    Iterator getIterator();
+}
+
+// Concrete Aggregate
+class NameRepository implements Container {
+    public String[] names = {"John", "Jane", "Jack"};
+
+    public Iterator getIterator() {
+        return new NameIterator();
+    }
+
+    private class NameIterator implements Iterator {
+        int index;
+        public boolean hasNext() { return index < names.length; }
+        public Object next() {
+            if (this.hasNext()) { return names[index++]; }
+            return null;
+        }
+    }
+}
+
+// Usage
+public class IteratorPatternDemo {
+    public static void main(String[] args) {
+        NameRepository namesRepository = new NameRepository();
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext(); ) {
+            String name = (String) iter.next();
+            System.out.println("Name: " + name);
+        }
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Iterator Pattern provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Iterator</strong> - Defines an interface for accessing and traversing elements.</li>
+                        <li><strong>ConcreteIterator</strong> - Implements the Iterator interface and keeps track of the current position in the traversal.</li>
+                        <li><strong>Aggregate</strong> - Defines an interface for creating an Iterator object.</li>
+                        <li><strong>ConcreteAggregate</strong> - Implements the Aggregate interface and returns an instance of ConcreteIterator.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Traversing collections like lists, trees, and graphs.</li>
+                        <li>Providing different ways to traverse a collection (e.g., forward, backward).</li>
+                        <li>Decoupling the collection classes from traversal algorithms.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 17 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading17" data-toggle="collapse" data-target="#collapse17" aria-expanded="false" aria-controls="collapse17">
+                <h3 class="mb-0">17. Mediator Pattern</h3>
+            </div>
+            <div id="collapse17" class="collapse" aria-labelledby="heading17" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> An air traffic control tower mediating communication between multiple airplanes.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="mediator_uml.png" alt="Mediator UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Mediator
+class ChatRoom {
+    public static void showMessage(User user, String message) {
+        System.out.println(user.getName() + ": " + message);
+    }
+}
+
+// Colleague
+class User {
+    private String name;
+    public User(String name) { this.name = name; }
+    public String getName() { return name; }
+    public void sendMessage(String message) {
+        ChatRoom.showMessage(this, message);
+    }
+}
+
+// Usage
+public class MediatorPatternDemo {
+    public static void main(String[] args) {
+        User user1 = new User("Alice");
+        User user2 = new User("Bob");
+        user1.sendMessage("Hi Bob!");
+        user2.sendMessage("Hello Alice!");
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Mediator Pattern defines an object that encapsulates how a set of objects interact, promoting loose coupling.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we define an object that encapsulates how a set of objects interact, promoting loose coupling?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Mediator</strong> - Defines an interface for communicating with Colleague objects.</li>
+                        <li><strong>ConcreteMediator</strong> - Implements cooperative behavior by coordinating Colleague objects.</li>
+                        <li><strong>Colleague</strong> - Objects that communicate with each other via the Mediator.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Managing complex communications between multiple objects (e.g., chat rooms).</li>
+                        <li>GUI frameworks where widgets interact via a mediator.</li>
+                        <li>Reducing dependencies between components in a system.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 18 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading18" data-toggle="collapse" data-target="#collapse18" aria-expanded="false" aria-controls="collapse18">
+                <h3 class="mb-0">18. Memento Pattern</h3>
+            </div>
+            <div id="collapse18" class="collapse" aria-labelledby="heading18" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> Undo mechanism in text editors where you can save and restore states.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="memento_uml.png" alt="Memento UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Memento
+class Memento {
+    private String state;
+    public Memento(String state) { this.state = state; }
+    public String getState() { return state; }
+}
+
+// Originator
+class Originator {
+    private String state;
+    public void setState(String state) { this.state = state; }
+    public String getState() { return state; }
+    public Memento saveState() { return new Memento(state); }
+    public void restoreState(Memento memento) { state = memento.getState(); }
+}
+
+// Caretaker
+class Caretaker {
+    private List<Memento> mementoList = new ArrayList<>();
+    public void addMemento(Memento memento) { mementoList.add(memento); }
+    public Memento getMemento(int index) { return mementoList.get(index); }
+}
+
+// Usage
+public class MementoPatternDemo {
+    public static void main(String[] args) {
+        Originator originator = new Originator();
+        Caretaker caretaker = new Caretaker();
+
+        originator.setState("State1");
+        caretaker.addMemento(originator.saveState());
+
+        originator.setState("State2");
+        originator.restoreState(caretaker.getMemento(0));
+        System.out.println("Current State: " + originator.getState());
+    }
+}
+ 
+                    
+                        <li>Reducing conditional complexity (e.g., using if-else or switch-case statements).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 21 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading21" data-toggle="collapse" data-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
+                <h3 class="mb-0">21. Strategy Pattern</h3>
+            </div>
+            <div id="collapse21" class="collapse" aria-labelledby="heading21" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A payment system where a customer can choose between paying by credit card, PayPal, or cash at checkout.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="strategy_uml.png" alt="Strategy UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Strategy Interface
+interface PaymentStrategy {
+    void pay(int amount);
+}
+
+// Concrete Strategies
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Credit Card.");
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using PayPal.");
+    }
+}
+
+// Context
+class ShoppingCart {
+    private PaymentStrategy paymentStrategy;
+
+    public ShoppingCart(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void checkout(int amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+
+// Usage
+public class StrategyPatternDemo {
+    public static void main(String[] args) {
+        ShoppingCart cart1 = new ShoppingCart(new CreditCardPayment());
+        cart1.checkout(500);
+
+        ShoppingCart cart2 = new ShoppingCart(new PayPalPayment());
+        cart2.checkout(300);
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Strategy Pattern allows you to define a family of algorithms, encapsulate each one, and make them interchangeable at runtime.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we define a family of algorithms, encapsulate each one, and make them interchangeable at runtime without altering the code that uses them?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Strategy</strong> - Declares an interface common to all supported algorithms.</li>
+                        <li><strong>ConcreteStrategy</strong> - Implements the algorithm using the Strategy interface.</li>
+                        <li><strong>Context</strong> - Maintains a reference to a Strategy object and is configured with a ConcreteStrategy object.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Dynamic selection of algorithms (e.g., choosing a sorting algorithm based on the data size).</li>
+                        <li>Payment systems where different payment methods can be used (e.g., PayPal, Credit Card).</li>
+                        <li>Compression algorithms where the user can select the desired algorithm.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 22 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading22" data-toggle="collapse" data-target="#collapse22" aria-expanded="false" aria-controls="collapse22">
+                <h3 class="mb-0">22. Template Method Pattern</h3>
+            </div>
+            <div id="collapse22" class="collapse" aria-labelledby="heading22" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A restaurant where the process of preparing food follows a standard procedure, but the specific ingredients can vary based on the dish.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="template_method_uml.png" alt="Template Method UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Abstract Class
+abstract class Meal {
+    public final void prepareMeal() {
+        prepareIngredients();
+        cook();
+        serve();
+    }
+
+    abstract void prepareIngredients();
+    abstract void cook();
+    abstract void serve();
+}
+
+// Concrete Classes
+class Pasta extends Meal {
+    public void prepareIngredients() {
+        System.out.println("Getting pasta and sauce.");
+    }
+    
+    public void cook() {
+        System.out.println("Boiling pasta and cooking sauce.");
+    }
+
+    public void serve() {
+        System.out.println("Serving pasta.");
+    }
+}
+
+class Salad extends Meal {
+    public void prepareIngredients() {
+        System.out.println("Getting vegetables and dressing.");
+    }
+
+    public void cook() {
+        System.out.println("Mixing salad.");
+    }
+
+    public void serve() {
+        System.out.println("Serving salad.");
+    }
+}
+
+// Usage
+public class TemplateMethodPatternDemo {
+    public static void main(String[] args) {
+        Meal pasta = new Pasta();
+        pasta.prepareMeal();
+
+        Meal salad = new Salad();
+        salad.prepareMeal();
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Template Method Pattern defines the skeleton of an algorithm, allowing subclasses to redefine certain steps without changing the overall algorithm structure.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we define the skeleton of an algorithm, but allow some steps to be overridden or defined by subclasses?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>AbstractClass</strong> - Defines the template method and concrete operations common to all subclasses.</li>
+                        <li><strong>ConcreteClass</strong> - Implements the steps that can vary in the algorithm.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>Defining the basic structure of an algorithm where specific steps can vary.</li>
+                        <li>Cooking recipes where the main process is the same, but ingredients vary.</li>
+                        <li>Frameworks where default behavior is provided but can be customized.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern 23 -->
+        <div class="card pattern">
+            <div class="card-header" id="heading23" data-toggle="collapse" data-target="#collapse23" aria-expanded="false" aria-controls="collapse23">
+                <h3 class="mb-0">23. Visitor Pattern</h3>
+            </div>
+            <div id="collapse23" class="collapse" aria-labelledby="heading23" data-parent="#accordionBehavioral">
+                <div class="card-body">
+                    <p><strong>Analogy:</strong> A tax accountant visiting different types of accounts (savings, retirement, investments) to calculate tax differently for each account type.</p>
+
+                    <!-- UML Diagram Placeholder -->
+                    <div class="text-center">
+                        <img src="visitor_uml.png" alt="Visitor UML Diagram" class="img-fluid">
+                    </div>
+
+                    <p><strong>Code Example:</strong></p>
+                    <div class="code">
+<pre>
+// Visitor Interface
+interface Visitor {
+    void visit(Book book);
+    void visit(Fruit fruit);
+}
+
+// Element Interface
+interface ItemElement {
+    void accept(Visitor visitor);
+}
+
+// Concrete Elements
+class Book implements ItemElement {
+    private int price;
+    private String isbnNumber;
+
+    public Book(int price, String isbnNumber) {
+        this.price = price;
+        this.isbnNumber = isbnNumber;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getIsbnNumber() {
+        return isbnNumber;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+}
+
+class Fruit implements ItemElement {
+    private int pricePerKg;
+    private int weight;
+    private String name;
+
+    public Fruit(int pricePerKg, int weight, String name) {
+        this.pricePerKg = pricePerKg;
+        this.weight = weight;
+        this.name = name;
+    }
+
+    public int getPricePerKg() {
+        return pricePerKg;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+}
+
+// Concrete Visitor
+class ShoppingCartVisitor implements Visitor {
+    public void visit(Book book) {
+        int cost = book.getPrice();
+        System.out.println("Book ISBN::" + book.getIsbnNumber() + " cost =" + cost);
+    }
+
+    public void visit(Fruit fruit) {
+        int cost = fruit.getPricePerKg() * fruit.getWeight();
+        System.out.println(fruit.getName() + " cost = " + cost);
+    }
+}
+
+// Usage
+public class VisitorPatternDemo {
+    public static void main(String[] args) {
+        ItemElement[] items = new ItemElement[] {new Book(20, "1234"), new Fruit(10, 2, "Banana")};
+
+        Visitor visitor = new ShoppingCartVisitor();
+        for (ItemElement item : items) {
+            item.accept(visitor);
+        }
+    }
+}
+</pre>
+                    </div>
+
+                    <p><strong>Explanation:</strong> The Visitor Pattern lets you define a new operation on a set of objects without changing the objects themselves.</p>
+
+                    <p><strong>Problem Statement:</strong> How can we define new operations on a set of objects without changing their structure or implementation?</p>
+
+                    <p><strong>Characters:</strong></p>
+                    <ul>
+                        <li><strong>Visitor</strong> - Declares a Visit operation for each ConcreteElement in the object structure.</li>
+                        <li><strong>ConcreteVisitor</strong> - Implements each operation declared by Visitor.</li>
+                        <li><strong>Element</strong> - Defines an accept operation that takes a Visitor as an argument.</li>
+                        <li><strong>ConcreteElement</strong> - Implements the accept operation, allowing a Visitor to visit it.</li>
+                        <li><strong>ObjectStructure</strong> - Can enumerate its elements and provide a way to access them.</li>
+                    </ul>
+
+                    <p><strong>Use Cases:</strong></p>
+                    <ul>
+                        <li>When operations need to be performed on a set of objects, but we want to avoid changing their structure.</li>
+                        <li>When implementing operations that can affect multiple object types (e.g., tax calculations).</li>
+                        <li>When objects and their algorithms need to evolve separately.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>SOLID Principles</h2>
+    <div class="solid">
+        <p><strong>SOLID</strong> principles are essential for designing maintainable, scalable, and flexible software architectures.</p>
+        <ul>
+            <h2>SOLID Principles in Context</h2>
+
+            <div class="solid">
+                <h3>Single Responsibility Principle (SRP)</h3>
+                <p>A class should have only one reason to change. For example, in the <span class="important">Builder Pattern</span>, the builder class is responsible only for constructing a complex object step by step.</p>
+        
+                <h3>Open/Closed Principle (OCP)</h3>
+                <p>Software entities should be open for extension but closed for modification. The <span class="important">Decorator Pattern</span> allows adding new responsibilities to objects without altering existing code.</p>
+        
+                <h3>Liskov Substitution Principle (LSP)</h3>
+                <p>Objects should be replaceable with instances of their subtypes without affecting the correctness. In the <span class="important">Strategy Pattern</span>, strategies can be substituted without changing the client's code.</p>
+        
+                <h3>Interface Segregation Principle (ISP)</h3>
+                <p>Clients should not be forced to depend upon interfaces they do not use. The <span class="important">Facade Pattern</span> provides a simplified interface to a complex subsystem, allowing clients to interact with it without depending on all its details.</p>
+        
+                <h3>Dependency Inversion Principle (DIP)</h3>
+                <p>Depend upon abstractions, not concretions. In the <span class="important">Factory Method Pattern</span>, the creation code depends on an abstract product interface, not concrete products.</p>
+            </div>
+        </ul>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
